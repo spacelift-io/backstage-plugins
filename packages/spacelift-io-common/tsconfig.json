@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "declarationDir": "../../dist-types/packages/spacelift-io-common/src" // Types to root dist-types structure
+  },
+  "exclude": ["**/*.test.ts", "__test__"]
+}
