@@ -13,11 +13,12 @@ export const mockStack: Stack = {
   },
 };
 
-export const generateMockStacks = (count: number): Stack[] => {
+export const generateMockStacks = (count: number, includeActiveStack = false): Stack[] => {
   return Array.from({ length: count }, (_, index) => ({
     ...mockStack,
     id: `stack-id-${index}`,
     name: `stack-name-${index}`,
     description: `stack-description-${index}`,
+    state: includeActiveStack && index === 0 ? 'APPLYING' : 'FINISHED',
   }));
 };
