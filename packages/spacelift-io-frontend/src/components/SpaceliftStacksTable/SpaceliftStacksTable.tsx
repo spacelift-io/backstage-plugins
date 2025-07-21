@@ -55,6 +55,7 @@ const renderState = (classes: ReturnType<typeof useStyles>, state: StackState) =
     PREPARING_APPLY: classes.info,
     PREPARING_REPLAN: classes.info,
     PREPARING: classes.info,
+    READY: classes.info,
     REPLAN_REQUESTED: classes.neutral,
     STOPPED: classes.danger,
     UNCONFIRMED: classes.warning,
