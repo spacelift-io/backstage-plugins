@@ -1,4 +1,5 @@
 import { Content, Header, HeaderLabel, Page } from '@backstage/core-components';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { Box, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useFetchStacks } from '../../hooks/useFetchStacks';
@@ -6,6 +7,9 @@ import { useTriggerRun } from '../../hooks/useTriggerRun';
 import { SpaceliftStacksTable } from '../SpaceliftStacksTable';
 
 export const StacksPage = () => {
+  const config = useApi(configApiRef);
+  const readOnly = config.getOptionalBoolean('spacelift.readOnly') ?? false;
+  
   const { stacks, loading: stacksLoading, error: stacksError, retry: getStacks } = useFetchStacks();
   const {
     triggerRun,
@@ -43,12 +47,16 @@ export const StacksPage = () => {
               Failed to load Spacelift stacks: {stacksError.message}
             </Alert>
           )}
-          {!stacksError && errorTriggerRun && (
+          {!stacksError && !readOnly && errorTriggerRun && (
             <Alert variant="outlined" severity="warning" onClose={clearTriggerRunError}>
               Spacelift action failed: {errorTriggerRun.message}
             </Alert>
           )}
-          <SpaceliftStacksTable stacks={stacks} loading={isLoading} triggerRun={handleTriggerRun} />
+          <SpaceliftStacksTable 
+            stacks={stacks} 
+            loading={isLoading} 
+            triggerRun={readOnly ? undefined : handleTriggerRun} 
+          />
         </Box>
       </Content>
     </Page>

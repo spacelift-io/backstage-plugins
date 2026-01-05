@@ -47,9 +47,20 @@ spacelift:
   hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
   apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID (for backend)
   apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret (for backend)
+  readOnly: false # Optional: Set to true to disable trigger functionality (default: false)
 ```
 
 Refer to the individual plugin READMEs for more specific installation and configuration steps.
+
+### Read-Only Mode
+
+Both plugins support a `readOnly` configuration option that disables the ability to trigger runs. When enabled:
+
+- The trigger run button is hidden in the frontend UI
+- The backend API returns `403 Forbidden` for trigger requests
+- All read operations (viewing stacks, status, etc.) continue to work normally
+
+This is useful for providing visibility into Spacelift stacks without allowing users to trigger runs. Set `readOnly: true` in your `app-config.yaml` to enable this mode.
 
 ### Important Note on Permissions
 
