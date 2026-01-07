@@ -42,6 +42,26 @@ describe('Common Types Schemas', () => {
       }
     });
 
+    it('should validate a correct stack object with READY state', () => {
+      const stackData = {
+        id: 'stack-id-ready',
+        name: 'Ready Stack',
+        description: 'A stack in READY state',
+        labels: ['ready', 'test'],
+        state: 'READY',
+        branch: 'main',
+        spaceDetails: {
+          id: 'space-id',
+          name: 'My Space',
+        },
+      };
+      const result = StackSchema.safeParse(stackData);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.state).toBe('READY');
+      }
+    });
+
     it('should fail validation for an incorrect stack object (e.g. missing required field)', () => {
       const stackData = {
         // id: 'stack-id', // Missing id
