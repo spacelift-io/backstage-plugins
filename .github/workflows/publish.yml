@@ -7,6 +7,10 @@ on:
 env:
   VERSION: ${{ github.event.release.tag_name }}
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -18,6 +22,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24.x
+          registry-url: "https://registry.npmjs.org"
 
       - name: Enable Corepack
         run: corepack enable
@@ -34,9 +39,6 @@ jobs:
 
       - name: Build packages
         run: yarn run build
-
-      - name: Set NPM auth token
-        run: npm config set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_PULUMI_PUBLISHER }}
 
       - name: Publish backend plugin
         run: yarn workspaces foreach -A --exclude @spacelift-io/backstage-plugins exec npm publish --access public
