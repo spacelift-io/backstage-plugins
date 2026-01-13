@@ -33,10 +33,24 @@ spacelift:
   hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
   apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID
   apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret
+  readOnly: false # Optional: Set to true to disable trigger functionality (default: false)
 ```
 
 Make sure to replace `<your-subdomain>` with your actual Spacelift subdomain.
 The `apiKey` and `apiSecret` should be stored securely, for example, as environment variables.
+
+### Read-Only Mode
+
+You can enable read-only mode by setting `readOnly: true` in your configuration. When enabled:
+
+- The trigger run functionality will be disabled
+- Users will not be able to trigger runs from the frontend
+- The backend will return a `403 Forbidden` error if someone attempts to trigger a run via the API
+- All other read operations (viewing stacks, etc.) will continue to work normally
+
+This is useful for environments where you want to provide visibility into Spacelift stacks without allowing users to trigger runs.
+
+> **Tip:** For additional security, admins can also create a Spacelift API key with read-only permissions. This ensures write operations are disabled at the API key level, providing defense-in-depth even if the `readOnly` configuration is accidentally omitted.
 
 ## Compatibility
 

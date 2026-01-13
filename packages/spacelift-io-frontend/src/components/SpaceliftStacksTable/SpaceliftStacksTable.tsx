@@ -81,7 +81,7 @@ const renderDescription = (
 type SpaceliftStacksTableProps = {
   stacks: Stack[];
   loading: boolean;
-  triggerRun: (stackId: string) => void;
+  triggerRun?: (stackId: string) => void;
 };
 
 export const SpaceliftStacksTable = ({
@@ -93,6 +93,7 @@ export const SpaceliftStacksTable = ({
   const classes = useStyles();
   const config = useApi(configApiRef);
   const hostUrl = config.getString('spacelift.hostUrl');
+  const readOnly = config.getOptionalBoolean('spacelift.readOnly') ?? false;
 
   const columns: TableColumn<Stack>[] = [
     {
@@ -143,11 +144,12 @@ export const SpaceliftStacksTable = ({
     {
       width: '30px',
       render: (row: Stack) => {
+        if (readOnly) return null;
         const showAction = ALLOW_RETRY_STATES.includes(row.state);
         if (!showAction) return null;
         return (
           <Tooltip title="Trigger run">
-            <IconButton onClick={() => triggerRun(row.id)}>
+            <IconButton onClick={() => triggerRun?.(row.id)}>
               <RepeatIcon />
             </IconButton>
           </Tooltip>

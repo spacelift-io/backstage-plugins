@@ -32,6 +32,12 @@ const mockConfig = mockApis.config({
   },
 });
 
+const mockReadOnlyConfig = mockApis.config({
+  data: {
+    spacelift: { hostUrl: 'test.spacelift.io', readOnly: true },
+  },
+});
+
 const renderInTestEnv = async (children: React.ReactNode) => {
   return renderInTestApp(
     <TestApiProvider apis={[[configApiRef, mockConfig]]}>{children}</TestApiProvider>
@@ -187,6 +193,41 @@ describe('StacksPage', () => {
     expect(MockSpaceliftStacksTable).toHaveBeenCalledWith(
       expect.objectContaining({
         loading: true,
+      }),
+      expect.anything()
+    );
+  });
+
+  it('does not display trigger run error alert when readOnly is enabled', async () => {
+    const errorMessage = 'Failed to trigger run';
+    mockUseTriggerRun.mockReturnValue({
+      triggerRun: mockTriggerRun,
+      loading: false,
+      error: new Error(errorMessage),
+      clear: mockClearTriggerRunError,
+    });
+
+    await renderInTestApp(
+      <TestApiProvider apis={[[configApiRef, mockReadOnlyConfig]]}>
+        <StacksPage />
+      </TestApiProvider>
+    );
+
+    expect(screen.queryByText(`Spacelift action failed: ${errorMessage}`)).not.toBeInTheDocument();
+  });
+
+  it('passes undefined triggerRun prop when readOnly is enabled', async () => {
+    await renderInTestApp(
+      <TestApiProvider apis={[[configApiRef, mockReadOnlyConfig]]}>
+        <StacksPage />
+      </TestApiProvider>
+    );
+
+    const MockSpaceliftStacksTable = require('../SpaceliftStacksTable')
+      .SpaceliftStacksTable as jest.Mock;
+    expect(MockSpaceliftStacksTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        triggerRun: undefined,
       }),
       expect.anything()
     );
