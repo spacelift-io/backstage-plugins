@@ -62,6 +62,8 @@ Both plugins support a `readOnly` configuration option that disables the ability
 
 This is useful for providing visibility into Spacelift stacks without allowing users to trigger runs. Set `readOnly: true` in your `app-config.yaml` to enable this mode.
 
+> **Tip:** For additional security, admins can also create a Spacelift API key with read-only permissions. This ensures write operations are disabled at the API key level, providing defense-in-depth even if the `readOnly` configuration is accidentally omitted.
+
 ### Important Note on Permissions
 
 These plugins operate using the permissions granted to the Spacelift API Key configured in the backend. They do not currently implement any additional user-level permission handling within Backstage.

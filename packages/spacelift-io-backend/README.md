@@ -50,6 +50,8 @@ You can enable read-only mode by setting `readOnly: true` in your configuration.
 
 This is useful for environments where you want to provide visibility into Spacelift stacks without allowing users to trigger runs.
 
+> **Tip:** For additional security, admins can also create a Spacelift API key with read-only permissions. This ensures write operations are disabled at the API key level, providing defense-in-depth even if the `readOnly` configuration is accidentally omitted.
+
 ## Compatibility
 
 This plugin requires:
