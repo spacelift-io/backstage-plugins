@@ -18,6 +18,11 @@
   "license": "MIT",
   "main": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./alpha": "./src/alpha.tsx",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public",
     "main": "dist/index.esm.js",
@@ -28,7 +33,8 @@
     "pluginId": "spacelift-io-frontend",
     "pluginPackages": [
       "@spacelift-io/backstage-integration-frontend"
-    ]
+    ],
+    "supportedVersions": "1.32.0"
   },
   "configSchema": "config.d.ts",
   "sideEffects": false,
@@ -49,6 +55,7 @@
       "!constants.ts",
       "!plugin.ts",
       "!routes.ts",
+      "!alpha.tsx",
       "!**/mocks/**"
     ],
     "coverageThreshold": {
@@ -63,6 +70,7 @@
   "dependencies": {
     "@backstage/core-components": "^0.17.1",
     "@backstage/core-plugin-api": "^1.10.6",
+    "@backstage/frontend-plugin-api": "^0.10.0",
     "@backstage/plugin-catalog-react": "^1.17.0",
     "@backstage/theme": "^0.6.5",
     "@material-ui/core": "^4.9.13",
@@ -93,10 +101,14 @@
   },
   "files": [
     "config.d.ts",
-    "dist"
+    "dist",
+    "alpha"
   ],
   "typesVersions": {
     "*": {
+      "alpha": [
+        "src/alpha.tsx"
+      ],
       "package.json": [
         "package.json"
       ]
