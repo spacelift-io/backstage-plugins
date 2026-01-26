@@ -30,11 +30,14 @@ export const spaceliftIoPlugin = createBackendPlugin({
           },
         });
 
+        const readOnly = config.getOptionalBoolean('spacelift.readOnly') ?? false;
+
         httpRouter.use(
           await createRouter({
             httpAuth,
             spaceliftService,
             logger,
+            readOnly,
           }),
         );
         httpRouter.addAuthPolicy({

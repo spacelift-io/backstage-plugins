@@ -53,9 +53,20 @@ This plugin requires the `spacelift.hostUrl` to be configured in your `app-confi
 ```yaml
 spacelift:
   hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
+  readOnly: false # Optional: Set to true to disable trigger functionality (default: false)
 ```
 
 Make sure to replace `<your-subdomain>` with your actual Spacelift subdomain.
+
+### Read-Only Mode
+
+When `readOnly: true` is set in the configuration:
+
+- The trigger run button will be hidden from the UI
+- Users will only be able to view stack information
+- This setting should match the backend configuration for consistency
+
+See the [Backend Plugin README](./packages/spacelift-io-backend/README.md) for more details on read-only mode.
 
 ### Important Note on Permissions
 

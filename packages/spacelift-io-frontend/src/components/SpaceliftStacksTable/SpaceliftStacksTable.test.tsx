@@ -18,6 +18,12 @@ const mockConfig = mockApis.config({
   },
 });
 
+const mockReadOnlyConfig = mockApis.config({
+  data: {
+    spacelift: { hostUrl: 'test.spacelift.io', readOnly: true },
+  },
+});
+
 const renderInTestEnv = (props: React.ComponentProps<typeof SpaceliftStacksTable>) => {
   return renderInTestApp(
     <TestApiProvider apis={[[configApiRef, mockConfig]]}>
@@ -216,5 +222,40 @@ describe('SpaceliftStacksTable', () => {
     });
 
     expect(await screen.findByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('does not render trigger button when readOnly is enabled', async () => {
+    const allowsRerunStack = mockStacks.find(s => ALLOW_RETRY_STATES.includes(s.state))!;
+
+    await renderInTestApp(
+      <TestApiProvider apis={[[configApiRef, mockReadOnlyConfig]]}>
+        <SpaceliftStacksTable
+          stacks={[allowsRerunStack]}
+          loading={false}
+          triggerRun={undefined}
+        />
+      </TestApiProvider>
+    );
+
+    const rows = await screen.findAllByRole('row');
+    const row = within(rows.find(r => r.textContent?.includes(allowsRerunStack.name))!);
+    expect(row.queryByRole('button', { name: /trigger run/i })).not.toBeInTheDocument();
+  });
+
+  it('does not render trigger button when readOnly config is true', async () => {
+    const allowsRerunStack = mockStacks.find(s => ALLOW_RETRY_STATES.includes(s.state))!;
+
+    await renderInTestApp(
+      <TestApiProvider apis={[[configApiRef, mockReadOnlyConfig]]}>
+        <SpaceliftStacksTable
+          stacks={[allowsRerunStack]}
+          loading={false}
+        />
+      </TestApiProvider>
+    );
+
+    const rows = await screen.findAllByRole('row');
+    const row = within(rows.find(r => r.textContent?.includes(allowsRerunStack.name))!);
+    expect(row.queryByRole('button', { name: /trigger run/i })).not.toBeInTheDocument();
   });
 });

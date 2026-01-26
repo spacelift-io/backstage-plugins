@@ -28,10 +28,12 @@ function handleError(res: express.Response, logger: LoggerService, error: any, c
 export async function createRouter({
   spaceliftService,
   logger,
+  readOnly,
 }: {
   httpAuth: HttpAuthService;
   spaceliftService: SpaceliftService;
   logger: LoggerService;
+  readOnly: boolean;
 }): Promise<express.Router> {
   const router = Router();
   router.use(express.json());
@@ -51,6 +53,13 @@ export async function createRouter({
   });
 
   router.post('/stacks/:stackId/trigger', async (req, res) => {
+    if (readOnly) {
+      res.status(403).json({ 
+        error: 'Trigger functionality is disabled. Plugin is in read-only mode.' 
+      });
+      return;
+    }
+
     const { stackId } = req.params;
     try {
       const runTrigger = await spaceliftService.triggerRun(stackId);

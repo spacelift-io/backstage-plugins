@@ -21,14 +21,24 @@ const mockHttpAuth: jest.Mocked<HttpAuthService> = {
 
 describe('createRouter', () => {
   let app: express.Express;
+  let readOnlyApp: express.Express;
 
   beforeAll(async () => {
     const router = await createRouter({
       logger: mockLogger,
       spaceliftService: mockSpaceliftService,
       httpAuth: mockHttpAuth,
+      readOnly: false,
     });
     app = express().use(router);
+
+    const readOnlyRouter = await createRouter({
+      logger: mockLogger,
+      spaceliftService: mockSpaceliftService,
+      httpAuth: mockHttpAuth,
+      readOnly: true,
+    });
+    readOnlyApp = express().use(readOnlyRouter);
   });
 
   beforeEach(() => {
@@ -172,6 +182,18 @@ describe('createRouter', () => {
         `Error triggering run for stack ${stackId}:`,
         customError
       );
+    });
+
+    it('should return 403 when readOnly is enabled and trigger endpoint is called', async () => {
+      const stackId = 'test-stack-id';
+
+      const response = await request(readOnlyApp).post(`/stacks/${stackId}/trigger`);
+
+      expect(response.status).toEqual(403);
+      expect(response.body).toEqual({
+        error: 'Trigger functionality is disabled. Plugin is in read-only mode.',
+      });
+      expect(mockSpaceliftService.triggerRun).not.toHaveBeenCalled();
     });
   });
 });
