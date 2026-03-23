@@ -1,5 +1,6 @@
 import {
   createFrontendPlugin,
+  createRouteRef,
   PageBlueprint,
   ApiBlueprint,
 } from '@backstage/frontend-plugin-api';
@@ -10,7 +11,8 @@ import {
 } from '@backstage/core-plugin-api';
 
 import { SpaceliftApi, spaceliftApiRef } from './api/SpaceliftApiClient';
-import { rootRouteRef } from './routes';
+
+const rootRouteRef = createRouteRef();
 
 /**
  * API extension for the Spacelift API.
