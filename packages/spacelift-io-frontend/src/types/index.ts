@@ -11,6 +11,7 @@ export type StackState =
   | 'PREPARING'
   | 'PREPARING_APPLY'
   | 'PREPARING_REPLAN'
+  | 'READY'
   | 'REPLAN_REQUESTED'
   | 'STOPPED'
   | 'UNCONFIRMED';
