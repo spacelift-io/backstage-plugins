@@ -2775,19 +2775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@backstage/cli-common@npm:^0.1.15":
-  version: 0.1.17
-  resolution: "@backstage/cli-common@npm:0.1.17"
-  dependencies:
-    "@backstage/errors": "npm:^1.2.7"
-    cross-spawn: "npm:^7.0.3"
-    global-agent: "npm:^3.0.0"
-    undici: "npm:^7.2.3"
-  checksum: 10c0/85dc7c7ecfbd1dc47f83b6a320a09c83773f9a6357b4186bbf53541f1f58db6dc576ed7de84c1285e38fdbe9c02851b63f48dd4474845f36fe3f33dc4ecb28e9
-  languageName: node
-  linkType: hard
-
-"@backstage/cli-common@npm:^0.1.16, @backstage/cli-common@npm:^0.1.17":
+"@backstage/cli-common@npm:^0.1.15, @backstage/cli-common@npm:^0.1.16, @backstage/cli-common@npm:^0.1.17":
   version: 0.1.17
   resolution: "@backstage/cli-common@npm:0.1.17"
   dependencies:
@@ -8727,14 +8715,14 @@ __metadata:
   linkType: hard
 
 "ajv@npm:^6.12.2, ajv@npm:^6.12.4, ajv@npm:^6.12.5":
-  version: 6.12.6
-  resolution: "ajv@npm:6.12.6"
+  version: 6.14.0
+  resolution: "ajv@npm:6.14.0"
   dependencies:
     fast-deep-equal: "npm:^3.1.1"
     fast-json-stable-stringify: "npm:^2.0.0"
     json-schema-traverse: "npm:^0.4.1"
     uri-js: "npm:^4.2.2"
-  checksum: 10c0/41e23642cbe545889245b9d2a45854ebba51cda6c778ebced9649420d9205f2efb39cb43dbc41e358409223b1ea43303ae4839db682c848b891e4811da1a5a71
+  checksum: 10c0/a2bc39b0555dc9802c899f86990eb8eed6e366cddbf65be43d5aa7e4f3c4e1a199d5460fd7ca4fb3d864000dbbc049253b72faa83b3b30e641ca52cb29a68c22
   languageName: node
   linkType: hard
 
