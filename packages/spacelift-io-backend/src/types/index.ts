@@ -18,6 +18,7 @@ export const StackSchema = z.object({
     'PREPARING',
     'PREPARING_APPLY',
     'PREPARING_REPLAN',
+    'READY',
     'REPLAN_REQUESTED',
     'STOPPED',
     'UNCONFIRMED',
