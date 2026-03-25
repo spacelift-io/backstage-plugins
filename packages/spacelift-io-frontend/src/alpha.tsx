@@ -1,16 +1,16 @@
 import {
-  createFrontendPlugin,
-  createRouteRef,
-  PageBlueprint,
-  ApiBlueprint,
-} from '@backstage/frontend-plugin-api';
-import {
   createApiFactory,
   discoveryApiRef,
   fetchApiRef,
-} from '@backstage/core-plugin-api';
+} from "@backstage/core-plugin-api";
+import {
+  ApiBlueprint,
+  createFrontendPlugin,
+  createRouteRef,
+  PageBlueprint,
+} from "@backstage/frontend-plugin-api";
 
-import { SpaceliftApi, spaceliftApiRef } from './api/SpaceliftApiClient';
+import { SpaceliftApi, spaceliftApiRef } from "./api/SpaceliftApiClient";
 
 const rootRouteRef = createRouteRef();
 
@@ -20,18 +20,19 @@ const rootRouteRef = createRouteRef();
  * @alpha
  */
 const spaceliftApiExtension = ApiBlueprint.make({
-  name: 'spacelift-api',
-  params: {
-    factory: createApiFactory({
-      api: spaceliftApiRef,
-      deps: {
-        discoveryApi: discoveryApiRef,
-        fetchApi: fetchApiRef,
-      },
-      factory: ({ discoveryApi, fetchApi }) =>
-        new SpaceliftApi(discoveryApi, fetchApi),
-    }),
-  },
+  name: "spacelift-api",
+  params: defineParams =>
+    defineParams(
+      createApiFactory({
+        api: spaceliftApiRef,
+        deps: {
+          discoveryApi: discoveryApiRef,
+          fetchApi: fetchApiRef,
+        },
+        factory: ({ discoveryApi, fetchApi }) =>
+          new SpaceliftApi(discoveryApi, fetchApi),
+      }),
+    ),
 });
 
 /**
@@ -41,9 +42,9 @@ const spaceliftApiExtension = ApiBlueprint.make({
  */
 const spaceliftPageExtension = PageBlueprint.make({
   params: {
-    defaultPath: '/spacelift',
+    path: "/spacelift",
     routeRef: rootRouteRef,
-    loader: () => import('./components/Stacks').then(m => <m.StacksPage />),
+    loader: () => import("./components/Stacks").then((m) => <m.StacksPage />),
   },
 });
 
@@ -53,10 +54,9 @@ const spaceliftPageExtension = PageBlueprint.make({
  * @alpha
  */
 export default createFrontendPlugin({
-  id: 'spacelift',
+  pluginId: "spacelift",
   extensions: [spaceliftApiExtension, spaceliftPageExtension],
   routes: {
     root: rootRouteRef,
   },
 });
-
