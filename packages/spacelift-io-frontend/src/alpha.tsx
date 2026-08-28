@@ -9,6 +9,7 @@ import {
   createRouteRef,
   PageBlueprint,
 } from "@backstage/frontend-plugin-api";
+import CloudQueueIcon from "@material-ui/icons/CloudQueue";
 
 import { SpaceliftApi, spaceliftApiRef } from "./api/SpaceliftApiClient";
 
@@ -43,6 +44,8 @@ const spaceliftApiExtension = ApiBlueprint.make({
 const spaceliftPageExtension = PageBlueprint.make({
   params: {
     path: "/spacelift",
+    title: "Spacelift",
+    icon: <CloudQueueIcon fontSize="inherit" />,
     routeRef: rootRouteRef,
     loader: () => import("./components/Stacks").then((m) => <m.StacksPage />),
   },
