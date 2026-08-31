@@ -11,11 +11,45 @@ This frontend plugin for Backstage provides a user interface to view and interac
    yarn --cwd packages/app add @spacelift-io/backstage-integration-frontend
    ```
 
-2. Add the plugin to your `packages/app/src/App.tsx`:
+2. Register the plugin using either the [new frontend system](#new-frontend-system) or the [legacy frontend system](#legacy-frontend-system), depending on your Backstage app.
+
+### New frontend system
+
+Use this path if your app uses `@backstage/frontend-defaults` / `createApp` and feature discovery (the default for newer Backstage apps).
+
+The plugin ships a `/alpha` entry point that exports a frontend plugin with a page and API extension. On Backstage 1.51+, the page extension also contributes a sidebar nav item (title and icon).
+
+#### Option A — Feature discovery (recommended)
+
+If your `app-config.yaml` enables package discovery (for example `app.packages: all`), installing the dependency is enough. The app discovers `@spacelift-io/backstage-integration-frontend/alpha` automatically. No extra code changes are required.
+
+#### Option B — Manual registration
+
+If feature discovery is disabled, or you prefer explicit installs, import the default export from `/alpha` and pass it to `createApp`:
+
+```tsx
+// packages/app/src/App.tsx
+import { createApp } from "@backstage/frontend-defaults";
+import spaceliftPlugin from "@spacelift-io/backstage-integration-frontend/alpha";
+
+const app = createApp({
+  features: [spaceliftPlugin],
+});
+
+export default app.createRoot();
+```
+
+This registers the `/spacelift` page and the Spacelift sidebar item. You do not need a separate `SidebarItem` in `Root.tsx`.
+
+### Legacy frontend system
+
+Use this path if your app still uses `FlatRoutes` and a hand-built sidebar.
+
+1. Add the plugin to your `packages/app/src/App.tsx`:
 
    ```tsx
    // packages/app/src/App.tsx
-   import { SpaceliftIoPage } from '@spacelift-io/backstage-integration-frontend';
+   import { SpaceliftIoPage } from "@spacelift-io/backstage-integration-frontend";
 
    // ...
 
@@ -27,11 +61,11 @@ This frontend plugin for Backstage provides a user interface to view and interac
    );
    ```
 
-3. Add the plugin to the sidebar in `packages/app/src/components/Root/Root.tsx`:
+2. Add the plugin to the sidebar in `packages/app/src/components/Root/Root.tsx`:
 
    ```tsx
    // packages/app/src/components/Root/Root.tsx
-   import SpaceliftIcon from '@material-ui/icons/CloudQueue'; // Example icon, choose an appropriate one
+   import SpaceliftIcon from "@material-ui/icons/CloudQueue"; // Example icon, choose an appropriate one
 
    // ...
 
@@ -52,7 +86,7 @@ This plugin requires the `spacelift.hostUrl` to be configured in your `app-confi
 
 ```yaml
 spacelift:
-  hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
+  hostUrl: "<your-subdomain>.app.spacelift.io" # Your Spacelift instance URL (WITHOUT https://)
   readOnly: false # Optional: Set to true to disable trigger functionality (default: false)
 ```
 
@@ -82,7 +116,9 @@ This plugin requires:
 - `@backstage/core-plugin-api` >= 1.10.6
 - `@backstage/plugin-catalog-react` >= 1.17.0
 
-It is compatible with Backstage 1.17.0 or later.
+The legacy (`FlatRoutes`) integration is compatible with Backstage 1.17.0 or later.
+
+The `/alpha` new frontend system integration requires `@backstage/frontend-plugin-api` >= 0.17.0 and is supported on Backstage 1.51.0 or later.
 
 ## Backend Plugin
 
